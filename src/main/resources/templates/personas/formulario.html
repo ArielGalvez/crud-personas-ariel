@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${persona.id == null} ? 'Nueva persona' : 'Editar persona')}"></head>
+<body>
+<main class="container container-sm">
+
+    <div class="card">
+        <div class="card-header">
+            <h1 class="title title-sm" th:text="${persona.id == null} ? 'Nueva persona' : 'Editar persona'">Persona</h1>
+            <p class="subtitle">Completa los datos y guarda los cambios</p>
+        </div>
+
+        <form class="form card-content" th:object="${persona}"
+              th:action="${persona.id == null} ? @{/personas} : @{/personas/{id}(id=${persona.id})}"
+              method="post">
+
+            <div class="field">
+                <label class="label" for="nombre">Nombre</label>
+                <input class="input" type="text" id="nombre" th:field="*{nombre}" th:errorclass="is-invalid">
+                <p class="field-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
+            </div>
+
+            <div class="field">
+                <label class="label" for="edad">Edad</label>
+                <input class="input" type="number" id="edad" th:field="*{edad}"  th:errorclass="is-invalid">
+                <p class="field-error" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}"></p>
+            </div>
+
+            <div class="field">
+                <label class="label" for="direccion">Dirección</label>
+                <input class="input" type="text" id="direccion" th:field="*{direccion}" th:errorclass="is-invalid">
+                <p class="field-error" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}"></p>
+            </div>
+
+            <div class="form-actions">
+                <a class="btn btn-outline" th:href="@{/personas}">Cancelar</a>
+                <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+</main>
+</body>
+</html>

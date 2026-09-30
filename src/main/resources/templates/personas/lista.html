@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Personas')}"></head>
+<body>
+<main class="container">
+
+    <div class="page-header">
+        <h1 class="title">Personas</h1>
+        <p class="subtitle">Administra los registros de personas</p>
+    </div>
+
+    <div class="alert" th:if="${mensaje}" th:text="${mensaje}">Mensaje</div>
+
+    <div class="toolbar">
+        <form class="search" th:action="@{/personas}" method="get">
+            <input class="input" type="text" name="nombre" th:value="${nombre}" placeholder="Buscar por nombre...">
+            <button class="btn btn-outline" type="submit">Buscar</button>
+            <a class="btn btn-ghost" th:if="${nombre}" th:href="@{/personas}">Limpiar</a>
+        </form>
+        <a class="btn btn-primary" th:href="@{/personas/nueva}">+ Nueva persona</a>
+    </div>
+
+    <div class="card table-wrap">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Dirección</th>
+                <th class="text-right">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${personas}">
+                <td class="cell-muted" th:text="${p.id}">1</td>
+                <td class="cell-strong" th:text="${p.nombre}">Nombre</td>
+                <td th:text="${p.edad}">30</td>
+                <td class="cell-muted" th:text="${p.direccion}">Dirección</td>
+                <td>
+                    <div class="actions">
+                        <a class="btn btn-outline btn-sm" th:href="@{/personas/{id}/editar(id=${p.id})}">Editar</a>
+                        <form th:action="@{/personas/{id}/eliminar(id=${p.id})}" method="post"
+                              onsubmit="return confirm('¿Seguro que deseas eliminar esta persona?');">
+                            <button class="btn btn-destructive btn-sm" type="submit">Eliminar</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(personas)}">
+                <td class="empty" colspan="5">No hay personas registradas</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+</body>
+</html>

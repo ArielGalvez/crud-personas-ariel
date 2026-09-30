@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Persona no encontrada')}"></head>
+<body>
+<main class="center-screen">
+    <div class="card">
+        <p class="code">404</p>
+        <h1 class="title title-sm">Persona no encontrada</h1>
+        <p class="subtitle" th:text="${error}">No existe la persona solicitada</p>
+        <a class="btn btn-primary" th:href="@{/personas}">Volver a la lista</a>
+    </div>
+</main>
+</body>
+</html>
