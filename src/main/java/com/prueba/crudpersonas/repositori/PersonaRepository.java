@@ -1,17 +1,18 @@
 package com.prueba.crudpersonas.repositori;
 
 import com.prueba.crudpersonas.model.Persona;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface PersonaRepository extends JpaRepository<Persona, Long> {
-    List<Persona> findByNombreContainingIgnoreCase(String nombre);
+public interface PersonaRepository {
+    List<Persona> findAll();
 
-    @Query("SELECT p FROM Persona p WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))")
-    List<Persona> buscarPorNombre(@Param("nombre") String nombre);
+    List<Persona> findByNombreContaining(String texto);
+
+    Optional<Persona> findById(Long id);
+
+    Persona save(Persona persona);
+
+    void deleteById(Long id);
 }
