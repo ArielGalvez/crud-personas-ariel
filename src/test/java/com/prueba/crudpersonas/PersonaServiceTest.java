@@ -78,6 +78,17 @@ public class PersonaServiceTest {
 
         assertThatThrownBy(() -> personaService.eliminar(99L))
                 .isInstanceOf(PersonaNotFoundException.class);
-        verify(personaRepository, never()).delete(any());
+        verify(personaRepository, never()).deleteById(any());
+    }
+
+    @Test
+    void eliminarExito() {
+        Persona persona = new Persona("Kathy", 27, "Tajibos");
+        persona.setId(1L);
+        when(personaRepository.findById(1L)).thenReturn(Optional.of(persona));
+
+        personaService.eliminar(1L);
+
+        verify(personaRepository).deleteById(1L);
     }
 }
