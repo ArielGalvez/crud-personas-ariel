@@ -1,4 +1,4 @@
-package com.prueba.crudpersonas.repository;
+package com.prueba.crudpersonas.repositori;
 
 import com.prueba.crudpersonas.model.Persona;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class InMemoryPersonaRepository implements PersonaRepository {
 
     private final Map<Long, Persona> personas = new ConcurrentSkipListMap<>();
-    private final AtomicLong secuencia = new AtomicLong();
+    private final AtomicLong contadorId = new AtomicLong();
 
     @Override
     public List<Persona> findAll() {
@@ -38,7 +38,7 @@ public class InMemoryPersonaRepository implements PersonaRepository {
     @Override
     public Persona save(Persona persona) {
         if (persona.getId() == null) {
-            persona.setId(secuencia.incrementAndGet());
+            persona.setId(contadorId.incrementAndGet());
         }
         personas.put(persona.getId(), persona);
         return persona;
