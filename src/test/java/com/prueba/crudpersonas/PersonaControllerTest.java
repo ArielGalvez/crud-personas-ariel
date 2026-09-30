@@ -63,6 +63,19 @@ public class PersonaControllerTest {
     }
 
     @Test
+    void crearEdadNoNumerica() throws Exception {
+        mockMvc.perform(post("/personas")
+                        .param("nombre", "Kathy")
+                        .param("edad", "abc")
+                        .param("direccion", "Tajibos"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("personas/formulario"))
+                .andExpect(model().attributeHasFieldErrorCode("persona", "edad", "typeMismatch"));
+
+        verify(personaService, never()).crear(any());
+    }
+
+    @Test
     void editar404() throws Exception {
         when(personaService.obtenerPorId(99L)).thenThrow(new PersonaNotFoundException(2L));
 
